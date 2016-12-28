@@ -45,3 +45,9 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.classpath
+.project
+*.properties
+AppleShields/.gradle
+AppleShields/bin
+AppleShields/build - Copy.gradle

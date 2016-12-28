@@ -1,0 +1,14 @@
+{
+  "apple_crunch": {
+    "category": "player",
+    "sounds": [
+      "apple_shields:apple_crunch"
+    ]
+  },
+  "apple_splat": {
+    "category": "player",
+    "sounds": [
+      "apple_shields:apple_splat"
+    ]
+  }
+}

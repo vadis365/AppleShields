@@ -2,6 +2,7 @@ package apple_shields.items;
 
 import java.util.List;
 
+import apple_shields.AppleShields;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -9,8 +10,6 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import apple_shields.AppleShields;
-import apple_shields.confighandler.ConfigHandler;
 
 public class ItemWhiteApple extends ItemFood {
     public ItemWhiteApple(int amount, float saturation, boolean isWolfFood) {

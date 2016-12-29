@@ -1,0 +1,14 @@
+{
+  "parent": "apple_shields:item/shield",
+      "textures": {
+        "layer0":"items/apple_golden"
+    },
+  "overrides": [
+    {
+      "predicate": {
+        "blocking": 1
+      },
+      "model": "apple_shields:item/enchanted_golden_apple_shield_blocking"
+    }
+  ]
+}

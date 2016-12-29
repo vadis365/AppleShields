@@ -1,0 +1,6 @@
+{
+    "parent":"apple_shields:item/shield_blocking",
+    "textures": {
+        "layer0":"items/apple_golden"
+    }
+}

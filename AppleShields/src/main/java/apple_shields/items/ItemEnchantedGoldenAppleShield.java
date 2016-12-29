@@ -47,4 +47,9 @@ public class ItemEnchantedGoldenAppleShield extends ItemAppleShield {
 		}
 		return true;
     }
+
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack stack) {
+        return true;
+    }
 }

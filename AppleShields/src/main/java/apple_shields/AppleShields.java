@@ -1,18 +1,5 @@
 package apple_shields;
 
-import apple_shields.confighandler.ConfigHandler;
-import apple_shields.events.AnvilEventAppleShield;
-import apple_shields.events.AppleShieldSoundEvent;
-import apple_shields.events.EntityShieldDamageEvent;
-import apple_shields.items.ItemAppleShield;
-import apple_shields.items.ItemEnchantedGoldenAppleShield;
-import apple_shields.items.ItemGoldenAppleShield;
-import apple_shields.items.ItemWhiteApple;
-import apple_shields.items.ItemWhiteAppleShield;
-import apple_shields.items.ItemWhiteAppleShieldRF;
-import apple_shields.packets.ShieldDestroyMessage;
-import apple_shields.packets.ShieldDestroyPacketHandler;
-import apple_shields.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -32,6 +19,19 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import apple_shields.confighandler.ConfigHandler;
+import apple_shields.events.AnvilEventAppleShield;
+import apple_shields.events.AppleShieldSoundEvent;
+import apple_shields.events.EntityShieldDamageEvent;
+import apple_shields.items.ItemAppleShield;
+import apple_shields.items.ItemEnchantedGoldenAppleShield;
+import apple_shields.items.ItemGoldenAppleShield;
+import apple_shields.items.ItemWhiteApple;
+import apple_shields.items.ItemWhiteAppleShield;
+import apple_shields.items.ItemWhiteAppleShieldRF;
+import apple_shields.packets.ShieldDestroyMessage;
+import apple_shields.packets.ShieldDestroyPacketHandler;
+import apple_shields.proxy.CommonProxy;
 
 @Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.0", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
 

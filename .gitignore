@@ -51,3 +51,7 @@ Temporary Items
 AppleShields/.gradle
 AppleShields/bin
 AppleShields/build - Copy.gradle
+AppleShields/build
+AppleShields/run
+AppleShields/.settings
+*.launch

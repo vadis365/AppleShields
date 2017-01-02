@@ -2,113 +2,166 @@ package apple_shields.items;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import apple_shields.AppleShields;
+import apple_shields.shieldtypes.IShieldType;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemAppleShield extends ItemShield {
-
-    public int hitPoints;
-
-    public ItemAppleShield(int hitPoints) {
-        this.hitPoints = hitPoints;
-        this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
+@SuppressWarnings("deprecation")
+public class ItemAppleShield extends ItemShield
+{
+    private IShieldType shieldType;
+    
+    public ItemAppleShield(IShieldType shieldType)
+    {
+        this.shieldType = shieldType;
+        this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter()
+        {
             @SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
-                return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
+            public float apply(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity)
+            {
+                return stack.getItem().getItemUseAction(stack) == EnumAction.BLOCK && entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
         });
-
+        
+        setMaxDamage(shieldType.getDurability());
     }
-
+    
+    public void register(String unlocalizedName)
+    {
+        setUnlocalizedName("apple_shields." + unlocalizedName);
+        GameRegistry.register(this, new ResourceLocation("apple_shields", unlocalizedName));
+    }
+    
+    public IShieldType getShieldType()
+    {
+        return shieldType;
+    }
+    
+    public void setShieldType(IShieldType shieldType)
+    {
+        this.shieldType = shieldType;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public void registerModels()
+    {
+        ModelResourceLocation model = new ModelResourceLocation("minecraft:shield", "inventory");
+        
+        ModelLoader.setCustomMeshDefinition(this, stack -> model);
+        ModelBakery.registerItemVariants(this, model);
+    }
+    
     @Override
-    public double getDurabilityForDisplay(ItemStack stack) {
-        if (hasTag(stack) && stack.getTagCompound().hasKey("damage")) {
-            return ((double) stack.getTagCompound().getInteger("damage") / (double) getMaxHitpoints());
-        } else
-            return 1;
+    public CreativeTabs getCreativeTab()
+    {
+        return AppleShields.creativeTab;
     }
-
+    
     @Override
-    public boolean showDurabilityBar(ItemStack stack) {
-        return hasTag(stack) && stack.getTagCompound().hasKey("damage") && stack.getTagCompound().getInteger("damage") > 0;
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+    {
+        if(getItemUseAction(stack) == EnumAction.BLOCK)
+        {
+            return super.onItemRightClick(stack, world, player, hand);
+        }
+        else
+        {
+            return new ActionResult<>(EnumActionResult.PASS, stack);
+        }
     }
-
-    public String getItemStackDisplayName(ItemStack stack) {
+    
+    @Override
+    public String getItemStackDisplayName(ItemStack stack)
+    {
         return ("" + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> list, boolean advanced) {
-    	list.add("Base Durability: " + getMaxHitpoints());
-    	list.add("Anvil Repair: Apple");
-	}
-
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> information, boolean advanced)
+    {
+        shieldType.addInformation(this, stack, player, information, advanced);
+    }
+    
     @Override
-    public CreativeTabs getCreativeTab() {
-        return AppleShields.TAB;
+    public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean selected)
+    {
+        shieldType.onUpdate(this, stack, world, entity, slot, selected);
     }
-
+    
     @Override
-    public boolean isRepairable() {
-        return true;
+    public boolean isRepairable()
+    {
+        return shieldType.getRepairItem() != null;
     }
-
+    
     @Override
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-        return repair.getItem() == Items.APPLE? true : super.getIsRepairable(toRepair, repair);
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+    {
+        return repair != null && ItemStack.areItemsEqual(repair, shieldType.getRepairItem());
     }
-
-    public int getMaxHitpoints() {
-        return hitPoints;
-    }
-
-    private static boolean hasTag(ItemStack stack) {
-		if (!stack.hasTagCompound()) {
-			stack.setTagCompound(new NBTTagCompound());
-			return false;
-		}
-		return true;
-	}
-
-    @Override
-    public boolean updateItemStackNBT(NBTTagCompound nbt) {
-        return super.updateItemStackNBT(nbt);
-    }
-
-    public boolean damageShield(int damageIn, ItemStack stack, EntityLivingBase entityIn) {
-        if (hasTag(stack))
-        	if(!stack.getTagCompound().hasKey("damage"))
-        		stack.getTagCompound().setInteger("damage", 0);
-
-        int damage = stack.getTagCompound().getInteger("damage") + damageIn;
-        if (damage >= getMaxHitpoints()) {
+    
+    public boolean damageShield(int toDamage, ItemStack stack, EntityLivingBase entity)
+    {
+        int damage = stack.getItemDamage() + toDamage;
+        
+        if (damage >= getMaxDamage(stack))
+        {
             --stack.stackSize;
-
-            if (entityIn instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) entityIn;
+            
+            if (entity instanceof EntityPlayer)
+            {
+                EntityPlayer player = (EntityPlayer) entity;
+                
                 player.addStat(StatList.getObjectBreakStats(stack.getItem()));
             }
-
+            
             if (stack.stackSize < 0)
+            {
                 stack.stackSize = 0;
-
-        } else
-            stack.getTagCompound().setInteger("damage", damage);
-
+            }
+        }
+        else
+        {
+            stack.setItemDamage(damage);
+        }
+        
         return true;
+    }
+    
+    public boolean repairShield(int toRepair, ItemStack stack)
+    {
+        if(stack.getItemDamage() > 0)
+        {
+            stack.setItemDamage(Math.max(0, stack.getItemDamage() - toRepair));
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

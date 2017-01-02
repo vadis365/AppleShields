@@ -33,94 +33,81 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-@Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.0", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
-public class AppleShields
-{
-    public static ItemAppleShield itemShieldRedApple;
-    public static ItemAppleShield itemShieldWhiteApple;
-    public static ItemAppleShield itemShieldGoldApple;
-    public static ItemAppleShield itemShieldEnchantedGoldApple;
-    public static ItemEnergyShield itemShieldRFWhiteApple;
+@Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.1", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
+public class AppleShields {
+    public static ItemAppleShield ITEM_SHIELD_RED_APPLE;
+    public static ItemAppleShield ITEM_SHIELD_WHITE_APPLE;
+    public static ItemAppleShield ITEM_SHIELD_GOLD_APPLE;
+    public static ItemAppleShield ITEM_SHIELD_ENCHANTED_GOLD_APPLE;
+    public static ItemEnergyShield ITEM_SHIELD_RF_WHITE_APPLE;
+    public static ItemWhiteApple ITEM_WHITE_APPLE;
+    public static SoundEvent SOUND_APPLE_CRUNCH;
+    public static SoundEvent SOUND_APPLE_SPLAT;
+    public static boolean IS_RF_PRESENT;
+    public static SimpleNetworkWrapper NETWORK_WRAPPER;
     
-    public static ItemWhiteApple itemWhiteApple;
-    
-    public static SoundEvent soundAppleCrunch;
-    public static SoundEvent soundAppleSplat;
-    public static boolean rfPresent;
-    public static SimpleNetworkWrapper networkWrapper;
-    
-    public static CreativeTabs creativeTab = new CreativeTabs("AppleShields")
-    {
-        
+    public static CreativeTabs creativeTab = new CreativeTabs("AppleShields") {
+
         @Override
-        public Item getTabIconItem()
-        {
-            return AppleShields.itemShieldRedApple;
+        public Item getTabIconItem() {
+            return AppleShields.ITEM_SHIELD_RED_APPLE;
         }
     };
-    
+
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        rfPresent = ModAPIManager.INSTANCE.hasAPI("CoFHAPI|energy");
-        
+    public void preInit(FMLPreInitializationEvent event) {
+        IS_RF_PRESENT = ModAPIManager.INSTANCE.hasAPI("CoFHAPI|energy");
+
         ConfigHandler.INSTANCE.loadConfig(event);
 
-        itemWhiteApple = new ItemWhiteApple(4, 0.3F, false);
-        itemShieldRedApple = new ItemAppleShield(new ShieldTypeBasic(new ItemStack(Items.APPLE), new ItemStack(Items.APPLE), ConfigHandler.shieldDurabilityRedApple));
-        itemShieldGoldApple = new ItemAppleShield(new ShieldTypeHealing(new ItemStack(Items.GOLDEN_APPLE), new ItemStack(Items.GOLD_INGOT), ConfigHandler.shieldDurabilityGoldApple, ConfigHandler.shieldHealAmountGoldApple, ConfigHandler.shieldHealTimeGoldApple));
-        itemShieldEnchantedGoldApple = new ItemAppleShield(new ShieldTypeHealing(new ItemStack(Items.GOLDEN_APPLE, 1, 1), new ItemStack(Blocks.GOLD_BLOCK), ConfigHandler.shieldDurabilityRedApple, ConfigHandler.shieldHealAmountEnchantedGoldApple, ConfigHandler.shieldHealTimeEnchanntedGoldApple));
-        itemShieldWhiteApple = new ItemAppleShield(new ShieldTypeBasic(new ItemStack(itemWhiteApple), new ItemStack(Blocks.REDSTONE_BLOCK), ConfigHandler.shieldDurabilityWhiteApple));
-        itemShieldRFWhiteApple = new ItemEnergyShield(new ShieldTypeEnergy(new ItemStack(itemWhiteApple), new ItemStack(Blocks.REDSTONE_BLOCK), ConfigHandler.shieldDurabilityRFWhiteApple));
+        ITEM_WHITE_APPLE = new ItemWhiteApple(4, 0.3F, false);
+        ITEM_SHIELD_RED_APPLE = new ItemAppleShield(new ShieldTypeBasic(new ItemStack(Items.APPLE), new ItemStack(Items.APPLE), ConfigHandler.SHIELD_DURABILITY_RED_APPLE));
+        ITEM_SHIELD_GOLD_APPLE = new ItemAppleShield(new ShieldTypeHealing(new ItemStack(Items.GOLDEN_APPLE), new ItemStack(Items.GOLD_INGOT), ConfigHandler.SHIELD_DURABILITY_GOLD_APPLE, ConfigHandler.SHIELD_HEAL_AMOUNT_GOLD_APPLE, ConfigHandler.SHIELD_HEAL_TIME_GOLD_APPLE));
+        ITEM_SHIELD_ENCHANTED_GOLD_APPLE = new ItemAppleShield(new ShieldTypeHealing(new ItemStack(Items.GOLDEN_APPLE, 1, 1), new ItemStack(Blocks.GOLD_BLOCK), ConfigHandler.SHIELD_DURABILITY_RED_APPLE, ConfigHandler.SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE, ConfigHandler.SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE));
+        ITEM_SHIELD_WHITE_APPLE = new ItemAppleShield(new ShieldTypeBasic(new ItemStack(ITEM_WHITE_APPLE), new ItemStack(Blocks.REDSTONE_BLOCK), ConfigHandler.SHIELD_DURABILITY_WHITE_APPLE));
+        ITEM_SHIELD_RF_WHITE_APPLE = new ItemEnergyShield(new ShieldTypeEnergy(new ItemStack(ITEM_WHITE_APPLE), new ItemStack(Blocks.REDSTONE_BLOCK), ConfigHandler.SHIELD_DURABILITY_RF_WHITE_APPLE));
 
-        itemWhiteApple.register("white_apple");
-        itemShieldRedApple.register("red_apple_shield");
-        itemShieldGoldApple.register("golden_apple_shield");
-        itemShieldEnchantedGoldApple.register("enchanted_golden_apple_shield");
-        itemShieldWhiteApple.register("white_apple_shield");
-        itemShieldRFWhiteApple.register("rf_apple_shield");
-        
-        addShapedRecipe(new ItemStack(itemWhiteApple, 1), "bbb", "bxb", "bbb", 'x', new ItemStack(Items.APPLE), 'b', "dyeWhite");
-        addShapedRecipe(new ItemStack(itemShieldRedApple, 1), "#i#", "###", " # ", '#', new ItemStack(Items.APPLE), 'i', "ingotIron");
-        
-        if (rfPresent)
-        {
-            addShapedRecipe(new ItemStack(itemWhiteApple, 1, 1), "brb", "rxr", "brb", 'x', new ItemStack(Items.APPLE), 'b', "dyeWhite", 'r', "dustRedstone");
-        }
-        
-        networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel("apple_shields");
-        networkWrapper.registerMessage(ShieldDestroyPacketHandler.class, ShieldDestroyMessage.class, 0, Side.CLIENT);
-        
-        if (FMLCommonHandler.instance().getSide().isClient())
-        {
+        ITEM_WHITE_APPLE.register("white_apple");
+        ITEM_SHIELD_RED_APPLE.register("red_apple_shield");
+        ITEM_SHIELD_GOLD_APPLE.register("golden_apple_shield");
+        ITEM_SHIELD_ENCHANTED_GOLD_APPLE.register("enchanted_golden_apple_shield");
+        ITEM_SHIELD_WHITE_APPLE.register("white_apple_shield");
+        ITEM_SHIELD_RF_WHITE_APPLE.register("rf_apple_shield");
+
+        addShapedRecipe(new ItemStack(ITEM_WHITE_APPLE, 1), "bbb", "bxb", "bbb", 'x', new ItemStack(Items.APPLE), 'b', "dyeWhite");
+        addShapedRecipe(new ItemStack(ITEM_SHIELD_RED_APPLE, 1), "#i#", "###", " # ", '#', new ItemStack(Items.APPLE), 'i', "ingotIron");
+
+        if (IS_RF_PRESENT)
+            addShapedRecipe(new ItemStack(ITEM_WHITE_APPLE, 1, 1), "brb", "rxr", "brb", 'x', new ItemStack(Items.APPLE), 'b', "dyeWhite", 'r', "dustRedstone");
+
+        NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel("apple_shields");
+        NETWORK_WRAPPER.registerMessage(ShieldDestroyPacketHandler.class, ShieldDestroyMessage.class, 0, Side.CLIENT);
+
+        if (FMLCommonHandler.instance().getSide().isClient()) {
             // Why do it the "normal" way, when you can do it the way that actually works? :D
             TileEntityItemStackRenderer.instance = new AppleShieldItemRenderer(TileEntityItemStackRenderer.instance);
 
-            itemWhiteApple.registerModels();
-            itemShieldRedApple.registerModels();
-            itemShieldGoldApple.registerModels();
-            itemShieldEnchantedGoldApple.registerModels();
-            itemShieldWhiteApple.registerModels();
-            itemShieldRFWhiteApple.registerModels();
+            ITEM_WHITE_APPLE.registerModels();
+            ITEM_SHIELD_RED_APPLE.registerModels();
+            ITEM_SHIELD_GOLD_APPLE.registerModels();
+            ITEM_SHIELD_ENCHANTED_GOLD_APPLE.registerModels();
+            ITEM_SHIELD_WHITE_APPLE.registerModels();
+            ITEM_SHIELD_RF_WHITE_APPLE.registerModels();
         }
     }
-    
+
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        soundAppleCrunch = new SoundEvent(new ResourceLocation("apple_shields", "apple_crunch")).setRegistryName("apple_shields", "apple_crunch");
-        soundAppleSplat = new SoundEvent(new ResourceLocation("apple_shields", "apple_splat")).setRegistryName("apple_shields", "apple_splat");
-        
-        GameRegistry.register(soundAppleCrunch);
-        GameRegistry.register(soundAppleSplat);
-        
+    public void init(FMLInitializationEvent event) {
+        SOUND_APPLE_CRUNCH = new SoundEvent(new ResourceLocation("apple_shields", "apple_crunch")).setRegistryName("apple_shields", "apple_crunch");
+        SOUND_APPLE_SPLAT = new SoundEvent(new ResourceLocation("apple_shields", "apple_splat")).setRegistryName("apple_shields", "apple_splat");
+        GameRegistry.register(SOUND_APPLE_CRUNCH);
+        GameRegistry.register(SOUND_APPLE_SPLAT);
         MinecraftForge.EVENT_BUS.register(new EntityShieldDamageEvent());
         MinecraftForge.EVENT_BUS.register(new AppleShieldSoundEvent());
         MinecraftForge.EVENT_BUS.register(ConfigHandler.INSTANCE);
     }
-    
-    private static void addShapedRecipe(ItemStack output, Object... objects)
-    {
+
+    private static void addShapedRecipe(ItemStack output, Object... objects) {
         GameRegistry.addRecipe(new ShapedOreRecipe(output, objects));
     }
 }

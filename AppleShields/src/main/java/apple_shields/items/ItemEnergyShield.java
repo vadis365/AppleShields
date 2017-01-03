@@ -64,7 +64,7 @@ public class ItemEnergyShield extends ItemAppleShield implements IEnergyContaine
 
 		if (!simulate) {
 			energyStored += energyReceived;
-			container.setItemDamage(energyStored);
+			container.setItemDamage(getMaxEnergyStored(container) - energyStored);
 		}
 
 		return energyReceived;
@@ -77,7 +77,7 @@ public class ItemEnergyShield extends ItemAppleShield implements IEnergyContaine
 
 		if (!simulate) {
 			energyStored -= energyExtracted;
-			container.setItemDamage(energyStored);
+			container.setItemDamage(getMaxEnergyStored(container) - energyStored);
 		}
 
 		return energyExtracted;

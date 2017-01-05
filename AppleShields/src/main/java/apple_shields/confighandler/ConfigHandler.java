@@ -39,8 +39,8 @@ public class ConfigHandler {
 
 		SHIELD_ENERGY_RF_PER_DAMAGE = config.get("Apple Shield Settings", "RF iShield RF Consumed per Damage Point", 20).getInt(20);
 
-		SHIELD_HEAL_TIME_GOLD_APPLE = config.get("Apple Shield Settings", "Golden Apple Auto Repair Cycle (Seconds)", 8).getInt(8);
-		SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE = config.get("Apple Shield Settings", "Enchanted Golden Apple Auto Repair Cycle (Seconds)", 4).getInt(4);
+		SHIELD_HEAL_TIME_GOLD_APPLE = config.get("Apple Shield Settings", "Golden Apple Auto Repair Cycle (Seconds)", 60).getInt(60);
+		SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE = config.get("Apple Shield Settings", "Enchanted Golden Apple Auto Repair Cycle (Seconds)", 30).getInt(30);
 		SHIELD_HEAL_AMOUNT_GOLD_APPLE = config.get("Apple Shield Settings", "Golden Apple Durability Auto Repaired", 1).getInt(1);
 		SHIELD_HEAL_AMOUNT_ENCHANTED_GOLD_APPLE = config.get("Apple Shield Settings", "Enchanted Golden Apple Durability Auto Repaired", 1).getInt(1);
 

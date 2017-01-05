@@ -33,7 +33,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-@Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.1", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
+@Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.2", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
 public class AppleShields {
     public static ItemAppleShield ITEM_SHIELD_RED_APPLE;
     public static ItemAppleShield ITEM_SHIELD_WHITE_APPLE;
@@ -65,14 +65,16 @@ public class AppleShields {
         ITEM_SHIELD_GOLD_APPLE = new ItemAppleShield(new ShieldTypeHealing(new ItemStack(Items.GOLDEN_APPLE), new ItemStack(Items.GOLD_INGOT), ConfigHandler.SHIELD_DURABILITY_GOLD_APPLE, ConfigHandler.SHIELD_HEAL_AMOUNT_GOLD_APPLE, ConfigHandler.SHIELD_HEAL_TIME_GOLD_APPLE));
         ITEM_SHIELD_ENCHANTED_GOLD_APPLE = new ItemAppleShield(new ShieldTypeHealing(new ItemStack(Items.GOLDEN_APPLE, 1, 1), new ItemStack(Blocks.GOLD_BLOCK), ConfigHandler.SHIELD_DURABILITY_RED_APPLE, ConfigHandler.SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE, ConfigHandler.SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE));
         ITEM_SHIELD_WHITE_APPLE = new ItemAppleShield(new ShieldTypeBasic(new ItemStack(ITEM_WHITE_APPLE), new ItemStack(Blocks.REDSTONE_BLOCK), ConfigHandler.SHIELD_DURABILITY_WHITE_APPLE));
-        ITEM_SHIELD_RF_WHITE_APPLE = new ItemEnergyShield(new ShieldTypeEnergy(new ItemStack(ITEM_WHITE_APPLE), new ItemStack(Blocks.REDSTONE_BLOCK), ConfigHandler.SHIELD_DURABILITY_RF_WHITE_APPLE));
+        if (IS_RF_PRESENT)
+        	ITEM_SHIELD_RF_WHITE_APPLE = new ItemEnergyShield(new ShieldTypeEnergy(new ItemStack(ITEM_WHITE_APPLE), new ItemStack(Blocks.REDSTONE_BLOCK), ConfigHandler.SHIELD_DURABILITY_RF_WHITE_APPLE));
 
         ITEM_WHITE_APPLE.register("white_apple");
         ITEM_SHIELD_RED_APPLE.register("red_apple_shield");
         ITEM_SHIELD_GOLD_APPLE.register("golden_apple_shield");
         ITEM_SHIELD_ENCHANTED_GOLD_APPLE.register("enchanted_golden_apple_shield");
         ITEM_SHIELD_WHITE_APPLE.register("white_apple_shield");
-        ITEM_SHIELD_RF_WHITE_APPLE.register("rf_apple_shield");
+        if (IS_RF_PRESENT)
+        	ITEM_SHIELD_RF_WHITE_APPLE.register("rf_apple_shield");
 
         addShapedRecipe(new ItemStack(ITEM_WHITE_APPLE, 1), "bbb", "bxb", "bbb", 'x', new ItemStack(Items.APPLE), 'b', "dyeWhite");
         addShapedRecipe(new ItemStack(ITEM_SHIELD_RED_APPLE, 1), "#i#", "###", " # ", '#', new ItemStack(Items.APPLE), 'i', "ingotIron");
@@ -92,7 +94,8 @@ public class AppleShields {
             ITEM_SHIELD_GOLD_APPLE.registerModels();
             ITEM_SHIELD_ENCHANTED_GOLD_APPLE.registerModels();
             ITEM_SHIELD_WHITE_APPLE.registerModels();
-            ITEM_SHIELD_RF_WHITE_APPLE.registerModels();
+            if (IS_RF_PRESENT)
+            	ITEM_SHIELD_RF_WHITE_APPLE.registerModels();
         }
     }
 

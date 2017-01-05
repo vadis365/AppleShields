@@ -3,11 +3,11 @@
   "modid": "apple_shields",
   "name": "apple_shields",
   "description": "A mod that adds Apple Shields of course.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "url": "",
   "updateUrl": "",
   "authorList": [
-    "vadis365"
+    "vadis365, snakefang12"
   ],
   "credits": "Thanks to imdutch21, dmf444, ganymedes01",
   "logoFile": "assets/apple_shields/apple_shields_logo.png",

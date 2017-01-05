@@ -40,9 +40,9 @@ public class ItemEnergyShield extends ItemAppleShield implements IEnergyContaine
 		super.getSubItems(item, tab, list);
 
 		if (AppleShields.IS_RF_PRESENT) {
-			ItemStack charged = new ItemStack(item);
-			receiveEnergy(charged, capacity, false);
-			list.add(charged);
+			ItemStack uncharged = new ItemStack(item);
+			extractEnergy(uncharged, capacity, false);
+			list.add(uncharged);
 		}
 	}
 

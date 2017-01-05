@@ -18,7 +18,7 @@ public class ShieldTypeHealing extends ShieldTypeBasic {
 	@Override
 	public void onUpdate(ItemAppleShield shield, ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		super.onUpdate(shield, stack, world, entity, slot, selected);
-		if (world.getTotalWorldTime() % repairTime == 0)
+		if (world.getTotalWorldTime()% (20 * repairTime) == 0)
 			shield.repairShield(repairAmount, stack);
 	}
 }

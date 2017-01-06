@@ -32,7 +32,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-@Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.2", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
+@Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.3", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
 public class AppleShields {
     public static ItemAppleShield ITEM_SHIELD_RED_APPLE;
     public static ItemAppleShield ITEM_SHIELD_WHITE_APPLE;

@@ -53,7 +53,7 @@ public class AppleShields {
     };
     
     @SidedProxy(clientSide = "apple_shields.proxy.ClientProxy", serverSide = "apple_shields.proxy.CommonProxy")
-    public static CommonProxy proxy;
+    public static CommonProxy PROXY;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -86,7 +86,7 @@ public class AppleShields {
         NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel("apple_shields");
         NETWORK_WRAPPER.registerMessage(ShieldDestroyPacketHandler.class, ShieldDestroyMessage.class, 0, Side.CLIENT);
 
-        proxy.preInit(event);
+        PROXY.registerRenderers();
 
     }
 

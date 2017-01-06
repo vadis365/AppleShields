@@ -32,8 +32,11 @@ public class AppleShieldItemRenderer extends TileEntityItemStackRenderer {
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(1.0, -1.0, -1.0);
 			modelShield.render();
+			GlStateManager.popMatrix();
+			
+			GlStateManager.pushMatrix();
 			Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-			GlStateManager.scale(1.25, -1.25, -1.25);
+			GlStateManager.scale(1.25, 1.25, 1.25);
 			GlStateManager.translate(0, 0.125, 0.08125);
 			renderItem(item.getShieldType().getShieldItem());
 			GlStateManager.popMatrix();

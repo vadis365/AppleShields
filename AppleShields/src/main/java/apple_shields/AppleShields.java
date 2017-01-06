@@ -8,11 +8,10 @@ import apple_shields.items.ItemEnergyShield;
 import apple_shields.items.ItemWhiteApple;
 import apple_shields.packets.ShieldDestroyMessage;
 import apple_shields.packets.ShieldDestroyPacketHandler;
-import apple_shields.render.AppleShieldItemRenderer;
+import apple_shields.proxy.CommonProxy;
 import apple_shields.shieldtypes.ShieldTypeBasic;
 import apple_shields.shieldtypes.ShieldTypeEnergy;
 import apple_shields.shieldtypes.ShieldTypeHealing;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -21,10 +20,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModAPIManager;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -47,13 +46,15 @@ public class AppleShields {
     public static SimpleNetworkWrapper NETWORK_WRAPPER;
     
     public static CreativeTabs creativeTab = new CreativeTabs("AppleShields") {
-
         @Override
         public Item getTabIconItem() {
             return AppleShields.ITEM_SHIELD_RED_APPLE;
         }
     };
-
+    
+    @SidedProxy(clientSide = "apple_shields.proxy.ClientProxy", serverSide = "apple_shields.proxy.CommonProxy")
+    public static CommonProxy proxy;
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         IS_RF_PRESENT = ModAPIManager.INSTANCE.hasAPI("CoFHAPI|energy");
@@ -85,18 +86,8 @@ public class AppleShields {
         NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel("apple_shields");
         NETWORK_WRAPPER.registerMessage(ShieldDestroyPacketHandler.class, ShieldDestroyMessage.class, 0, Side.CLIENT);
 
-        if (FMLCommonHandler.instance().getSide().isClient()) {
-            // Why do it the "normal" way, when you can do it the way that actually works? :D
-            TileEntityItemStackRenderer.instance = new AppleShieldItemRenderer(TileEntityItemStackRenderer.instance);
+        proxy.preInit(event);
 
-            ITEM_WHITE_APPLE.registerModels();
-            ITEM_SHIELD_RED_APPLE.registerModels();
-            ITEM_SHIELD_GOLD_APPLE.registerModels();
-            ITEM_SHIELD_ENCHANTED_GOLD_APPLE.registerModels();
-            ITEM_SHIELD_WHITE_APPLE.registerModels();
-            if (IS_RF_PRESENT)
-            	ITEM_SHIELD_RF_WHITE_APPLE.registerModels();
-        }
     }
 
     @EventHandler

@@ -5,6 +5,7 @@ import apple_shields.items.ItemAppleShield;
 import apple_shields.packets.ShieldDestroyMessage;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -24,19 +25,26 @@ public class EntityShieldDamageEvent
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
             ItemStack stack = player.getActiveItemStack();
             
-            if ((stack != null) && (stack.getItem() instanceof ItemAppleShield))
+            if (stack != null && stack.getItem() instanceof ItemAppleShield)
             {
+                ItemAppleShield shield = (ItemAppleShield) stack.getItem();
+                
                 if (canBlockDamageSource(player, event.getSource()) && !player.isEntityInvulnerable(event.getSource()))
                 {
                     int damageInflicted = 1 + MathHelper.floor_float(event.getAmount());
                     
-                    ((ItemAppleShield) stack.getItem()).damageShield(damageInflicted, stack, player);
+                    shield.damageShield(damageInflicted, stack, player);
                     
-                    if (player.getActiveItemStack().stackSize <= 0)
+                    if (stack.stackSize <= 0)
                     {
                         EnumHand hand = player.getActiveHand();
+
+                        if(player instanceof EntityPlayerMP)
+                        {
+                            AppleShields.NETWORK_WRAPPER.sendTo(new ShieldDestroyMessage(stack), (EntityPlayerMP) player);
+                        }
+                        
                         ForgeEventFactory.onPlayerDestroyItem(player, stack, hand);
-                        AppleShields.NETWORK_WRAPPER.sendToAll(new ShieldDestroyMessage(player));
                         player.setHeldItem(hand, null);
                     }
                 }

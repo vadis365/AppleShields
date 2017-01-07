@@ -7,6 +7,7 @@ import apple_shields.items.ItemAppleShield;
 import apple_shields.packets.ShieldDestroyMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
@@ -73,12 +74,24 @@ public class ShieldTypeFeeding extends ShieldTypeBasic
                     
                     if (stack.stackSize <= 0)
                     {
-                        player.inventory.currentItem = player.inventory.getSlotFor(stack);
-                        player.setActiveHand(EnumHand.MAIN_HAND);
+                        EnumHand hand = null;
                         
-                        ForgeEventFactory.onPlayerDestroyItem(player, stack, EnumHand.MAIN_HAND);
-                        AppleShields.NETWORK_WRAPPER.sendToAll(new ShieldDestroyMessage(player));
-                        player.setHeldItem(EnumHand.MAIN_HAND, null);
+                        if (player.getHeldItem(EnumHand.MAIN_HAND) == stack)
+                        {
+                            hand = EnumHand.MAIN_HAND;
+                        }
+                        else if (player.getHeldItem(EnumHand.OFF_HAND) == stack)
+                        {
+                            hand = EnumHand.OFF_HAND;
+                        }
+                        
+                        if(player instanceof EntityPlayerMP)
+                        {
+                            AppleShields.NETWORK_WRAPPER.sendTo(new ShieldDestroyMessage(stack), (EntityPlayerMP) player);
+                        }
+                        
+                        ForgeEventFactory.onPlayerDestroyItem(player, stack, hand);
+                        player.inventory.setInventorySlotContents(slot, null);
                     }
                 }
             }

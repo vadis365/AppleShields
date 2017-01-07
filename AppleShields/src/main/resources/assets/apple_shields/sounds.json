@@ -1,14 +1,22 @@
 {
-  "apple_crunch": {
-    "category": "player",
-    "sounds": [
-      "apple_shields:apple_crunch"
-    ]
-  },
-  "apple_splat": {
-    "category": "player",
-    "sounds": [
-      "apple_shields:apple_splat"
-    ]
-  }
+    "apple_crunch": {
+        "category": "player",
+        "sounds": [
+            "apple_shields:apple_crunch"
+        ]
+    },
+    "apple_splat": {
+        "category": "player",
+        "sounds": [
+            "apple_shields:apple_splat"
+        ]
+    },
+    "party": {
+        "category": "player",
+        "sounds": [
+            "apple_shields:party1",
+            "apple_shields:party2",
+            "apple_shields:party3"
+        ]
+    }
 }

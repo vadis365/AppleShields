@@ -29,101 +29,133 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("deprecation")
-public class ItemAppleShield extends ItemShield {
-	private IShieldType shieldType;
-
-	public ItemAppleShield(IShieldType shieldType) {
-		this.shieldType = shieldType;
-		this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
-			@SideOnly(Side.CLIENT)
-			public float apply(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
-				return stack.getItem().getItemUseAction(stack) == EnumAction.BLOCK && entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
-			}
-		});
-
-		setMaxDamage(shieldType.getDurability());
-	}
-
-	public void register(String unlocalizedName) {
-		setUnlocalizedName("apple_shields." + unlocalizedName);
-		GameRegistry.register(this, new ResourceLocation("apple_shields", unlocalizedName));
-	}
-
-	public IShieldType getShieldType() {
-		return shieldType;
-	}
-
-	public void setShieldType(IShieldType shieldType) {
-		this.shieldType = shieldType;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerModels() {
-		ModelResourceLocation model = new ModelResourceLocation("minecraft:shield", "inventory");
-		ModelLoader.setCustomMeshDefinition(this, stack -> model);
-		ModelBakery.registerItemVariants(this, model);
-	}
-
-	@Override
-	public CreativeTabs getCreativeTab() {
-		return AppleShields.creativeTab;
-	}
-
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-		if (getItemUseAction(stack) == EnumAction.BLOCK)
-			return super.onItemRightClick(stack, world, player, hand);
-		else
-			return new ActionResult<>(EnumActionResult.PASS, stack);
-	}
-
-	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
-		return ("" + I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> information, boolean advanced) {
-		shieldType.addInformation(this, stack, player, information, advanced);
-	}
-
-	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-		shieldType.onUpdate(this, stack, world, entity, slot, selected);
-	}
-
-	@Override
-	public boolean isRepairable() {
-		return shieldType.getRepairItem() != null;
-	}
-
-	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair != null && ItemStack.areItemsEqual(repair, shieldType.getRepairItem());
-	}
-
-	public boolean damageShield(int toDamage, ItemStack stack, EntityLivingBase entity) {
-		int damage = stack.getItemDamage() + toDamage;
-
-		if (damage >= getMaxDamage(stack)) {
-			--stack.stackSize;
-			if (entity instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) entity;
-				player.addStat(StatList.getObjectBreakStats(stack.getItem()));
-			}
-			if (stack.stackSize < 0)
-				stack.stackSize = 0;
-		} else
-			stack.setItemDamage(damage);
-		return true;
-	}
-
-	public boolean repairShield(int toRepair, ItemStack stack) {
-		if (stack.getItemDamage() > 0) {
-			stack.setItemDamage(Math.max(0, stack.getItemDamage() - toRepair));
-			return true;
-		} else
-			return false;
-	}
+public class ItemAppleShield extends ItemShield
+{
+    private IShieldType shieldType;
+    
+    public ItemAppleShield()
+    {
+        addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter()
+        {
+            @Override
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity)
+            {
+                return stack.getItem().getItemUseAction(stack) == EnumAction.BLOCK && entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
+            }
+        });
+    }
+    
+    public void register(String unlocalizedName)
+    {
+        setUnlocalizedName("apple_shields." + unlocalizedName);
+        GameRegistry.register(this, new ResourceLocation("apple_shields", unlocalizedName));
+    }
+    
+    public IShieldType getShieldType()
+    {
+        return shieldType;
+    }
+    
+    public void setShieldType(IShieldType shieldType)
+    {
+        this.shieldType = shieldType;
+        
+        setMaxDamage(shieldType.getDurability());
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public void registerModels()
+    {
+        ModelResourceLocation model = new ModelResourceLocation("minecraft:shield", "inventory");
+        ModelLoader.setCustomMeshDefinition(this, stack -> model);
+        ModelBakery.registerItemVariants(this, model);
+    }
+    
+    @Override
+    public CreativeTabs getCreativeTab()
+    {
+        return AppleShields.creativeTab;
+    }
+    
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+    {
+        if (getItemUseAction(stack) == EnumAction.BLOCK)
+        {
+            return super.onItemRightClick(stack, world, player, hand);
+        }
+        else
+        {
+            return new ActionResult<>(EnumActionResult.PASS, stack);
+        }
+    }
+    
+    @Override
+    public String getItemStackDisplayName(ItemStack stack)
+    {
+        return ("" + I18n.translateToLocal(getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> information, boolean advanced)
+    {
+        shieldType.addInformation(this, stack, player, information, advanced);
+    }
+    
+    @Override
+    public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean selected)
+    {
+        shieldType.onUpdate(this, stack, world, entity, slot, selected);
+    }
+    
+    @Override
+    public boolean isRepairable()
+    {
+        return shieldType.getRepairItem() != null;
+    }
+    
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+    {
+        return repair != null && ItemStack.areItemsEqual(repair, shieldType.getRepairItem());
+    }
+    
+    public boolean damageShield(int toDamage, ItemStack stack, EntityLivingBase entity)
+    {
+        int damage = stack.getItemDamage() + toDamage;
+        
+        if (damage >= getMaxDamage(stack))
+        {
+            --stack.stackSize;
+            if (entity instanceof EntityPlayer)
+            {
+                EntityPlayer player = (EntityPlayer) entity;
+                player.addStat(StatList.getObjectBreakStats(stack.getItem()));
+            }
+            if (stack.stackSize < 0)
+            {
+                stack.stackSize = 0;
+            }
+        }
+        else
+        {
+            stack.setItemDamage(damage);
+        }
+        return true;
+    }
+    
+    public boolean repairShield(int toRepair, ItemStack stack)
+    {
+        if (stack.getItemDamage() > 0)
+        {
+            stack.setItemDamage(Math.max(0, stack.getItemDamage() - toRepair));
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

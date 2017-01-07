@@ -20,7 +20,7 @@ public class ShieldDestroyPacketHandler implements IMessageHandler<ShieldDestroy
     public IMessage onMessage(ShieldDestroyMessage message, MessageContext ctx)
     {
         EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
-        ItemStack stack = ItemStack.loadItemStackFromNBT(message.stack);
+        ItemStack stack = message.stack;
         
         SoundEvent sound = AppleShields.SOUND_APPLE_CRUNCH;
         float volume = 1.8F;

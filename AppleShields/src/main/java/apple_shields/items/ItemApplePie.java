@@ -1,6 +1,7 @@
 package apple_shields.items;
 
 import apple_shields.AppleShields;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemFood;
@@ -26,7 +27,11 @@ public class ItemApplePie extends ItemFood
     @SideOnly(Side.CLIENT)
     public void registerModels()
     {
-        ModelLoader.setCustomMeshDefinition(this, (stack) -> new ModelResourceLocation("apple_shields:apple_pie", "inventory"));
+        ModelResourceLocation applePie = new ModelResourceLocation("apple_shields:apple_pie", "inventory");
+        ModelResourceLocation applePieShield = new ModelResourceLocation("apple_shields:apple_pie_shield", "inventory");
+        
+        ModelLoader.setCustomMeshDefinition(this, (stack) -> stack.getMetadata() == 1 ? applePieShield : applePie);
+        ModelBakery.registerItemVariants(this, applePie, applePieShield);
     }
     
     @Override

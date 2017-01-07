@@ -67,9 +67,10 @@ public class ItemAppleShield extends ItemShield
     @SideOnly(Side.CLIENT)
     public void registerModels()
     {
-        ModelResourceLocation model = new ModelResourceLocation("minecraft:shield", "inventory");
-        ModelLoader.setCustomMeshDefinition(this, stack -> model);
-        ModelBakery.registerItemVariants(this, model);
+        ModelResourceLocation shield = new ModelResourceLocation("minecraft:shield", "inventory");
+        
+        ModelLoader.setCustomMeshDefinition(this, stack -> shield);
+        ModelBakery.registerItemVariants(this, shield);
     }
     
     @Override

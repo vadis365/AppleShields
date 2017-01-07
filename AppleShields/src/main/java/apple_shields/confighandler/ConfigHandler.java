@@ -59,8 +59,8 @@ public class ConfigHandler
         SHIELD_DURABILITY_PER_HUNGER = config.getInt("Apple Pie Shield Damage Per Hunger Restored", category, 4, 0, maxInt, "");
         SHIELD_ENERGY_RF_PER_DAMAGE = config.getInt("RF iShield RF Consumed per Damage Point", category, 20, 0, maxInt, "");
         
-        SHIELD_HEAL_TIME_GOLD_APPLE = config.getInt("Golden Apple Auto Repair Cycle (Seconds)", category, 60, 1, maxInt, "");
-        SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE = config.getInt("Enchanted Golden Apple Auto Repair Cycle (Seconds)", category, 30, 1, maxInt, "");
+        SHIELD_HEAL_TIME_GOLD_APPLE = config.getInt("Golden Apple Auto Repair Cycle (Seconds)", category, 8, 1, maxInt, "");
+        SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE = config.getInt("Enchanted Golden Apple Auto Repair Cycle (Seconds)", category, 4, 1, maxInt, "");
         SHIELD_HEAL_AMOUNT_GOLD_APPLE = config.getInt("Golden Apple Durability Auto Repaired", category, 1, 0, maxInt, "");
         SHIELD_HEAL_AMOUNT_ENCHANTED_GOLD_APPLE = config.getInt("Enchanted Golden Apple Durability Auto Repaired", category, 1, 0, maxInt, "");
         

@@ -3,6 +3,7 @@ package apple_shields.items;
 import java.util.List;
 
 import apple_shields.AppleShields;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +33,10 @@ public class ItemWhiteApple extends ItemFood
     @SideOnly(Side.CLIENT)
     public void registerModels()
     {
-        ModelLoader.setCustomMeshDefinition(this, (stack) -> new ModelResourceLocation("apple_shields:white_apple", "inventory"));
+        ModelResourceLocation whiteApple = new ModelResourceLocation("apple_shields:white_apple", "inventory");
+        
+        ModelLoader.setCustomMeshDefinition(this, (stack) -> whiteApple);
+        ModelBakery.registerItemVariants(this, whiteApple);
     }
     
     @Override

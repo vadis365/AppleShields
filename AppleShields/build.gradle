@@ -13,14 +13,14 @@ buildscript
     
     dependencies
     {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "net.minecraftforge.gradle.forge"
 
-version = "0.1.4"
-group= "vadis" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "0.1.5"
+group= "vadis"
 archivesBaseName = "AppleShields"
 
 sourceCompatibility = "1.8"
@@ -38,21 +38,24 @@ dependencies
     
 }
 
+sourceMainJava
+{
+    replace("__VERSION__", project.version)
+}
+
 processResources
 {
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
     
     from(sourceSets.main.resources.srcDirs)
     {
-        include 'mcmod.info'
+        include "mcmod.info"
         
-        expand 'version':project.version
-        expand 'mcversion':project.minecraft.version
+        expand "version":project.version
     }
-        
+    
     from(sourceSets.main.resources.srcDirs)
     {
-        exclude 'mcmod.info'
+        exclude "mcmod.info"
     }
 }

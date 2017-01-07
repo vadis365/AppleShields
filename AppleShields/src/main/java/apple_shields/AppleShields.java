@@ -35,7 +35,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-@Mod(modid = "apple_shields", name = "apple_shields", version = "0.1.3", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
+@Mod(modid = "apple_shields", name = "Apple Shields", version = "__VERSION__", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
 public class AppleShields
 {
     public static ItemAppleShield ITEM_SHIELD_RED_APPLE;

@@ -38,15 +38,15 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 @Mod(modid = "apple_shields", name = "Apple Shields", version = "__VERSION__", guiFactory = "apple_shields.confighandler.ConfigGuiFactory")
 public class AppleShields
 {
+    public static ItemWhiteApple ITEM_FOOD_WHITE_APPLE;
+    public static ItemApplePie ITEM_FOOD_APPLE_PIE;
+    
     public static ItemAppleShield ITEM_SHIELD_RED_APPLE;
     public static ItemAppleShield ITEM_SHIELD_WHITE_APPLE;
     public static ItemAppleShield ITEM_SHIELD_APPLE_PIE;
     public static ItemAppleShield ITEM_SHIELD_GOLD_APPLE;
     public static ItemAppleShield ITEM_SHIELD_ENCHANTED_GOLD_APPLE;
     public static ItemEnergyShield ITEM_SHIELD_RF_WHITE_APPLE;
-    public static ItemAppleShield ITEM_SHIELD_BIRTHDAY_PIE;
-    public static ItemWhiteApple ITEM_FOOD_WHITE_APPLE;
-    public static ItemApplePie ITEM_FOOD_APPLE_PIE;
     
     public static SoundEvent SOUND_APPLE_CRUNCH;
     public static SoundEvent SOUND_APPLE_SPLAT;

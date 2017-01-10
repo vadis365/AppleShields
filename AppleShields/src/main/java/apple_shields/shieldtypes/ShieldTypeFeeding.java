@@ -39,14 +39,17 @@ public class ShieldTypeFeeding extends ShieldTypeBasic
     {
         super.addInformation(shield, stack, player, information, advanced);
         
-        ITextComponent line1 = new TextComponentString("Happy Darkosto Appreciation Day!");
-        ITextComponent line2 = new TextComponentString("Stay, have some food!");
-        
-        line2.setStyle(line1.getStyle().setColor(TextFormatting.GREEN));
-        
-        information.add("");
-        information.add(line1.getFormattedText());
-        information.add(line2.getFormattedText());
+        if(player.getName().equals("Darkosto"))
+        {
+            ITextComponent line1 = new TextComponentString("Happy Darkosto Appreciation Day!");
+            ITextComponent line2 = new TextComponentString("Stay, have some food!");
+            
+            line2.setStyle(line1.getStyle().setColor(TextFormatting.GREEN));
+            
+            information.add("");
+            information.add(line1.getFormattedText());
+            information.add(line2.getFormattedText());
+        }
     }
     
     @Override

@@ -2,6 +2,7 @@ package apple_shields.proxy;
 
 import apple_shields.AppleShields;
 import apple_shields.render.AppleShieldItemRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,6 +27,11 @@ public class ClientProxy extends CommonProxy
         if (AppleShields.IS_RF_PRESENT)
         {
             AppleShields.ITEM_SHIELD_RF_WHITE_APPLE.registerModels();
+        }
+        
+        if(Minecraft.getMinecraft().getSession().getUsername().equals("Darkosto"))
+        {
+            AppleShields.ITEM_SHIELD_APPLE_PIE.setUnlocalizedName("apple_shields.apple_pie_shield.birthday");
         }
     }
 }

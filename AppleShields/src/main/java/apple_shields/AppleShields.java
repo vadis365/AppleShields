@@ -128,7 +128,6 @@ public class AppleShields
         ITEM_SHIELD_GOLD_APPLE.setShieldType(new ShieldTypeRepairing(new ItemStack(Items.GOLDEN_APPLE), new ItemStack(Items.GOLD_INGOT), SOUND_APPLE_CRUNCH, SOUND_APPLE_SPLAT, ConfigHandler.SHIELD_DURABILITY_GOLD_APPLE, ConfigHandler.SHIELD_HEAL_AMOUNT_GOLD_APPLE, 20 * ConfigHandler.SHIELD_HEAL_TIME_GOLD_APPLE));
         ITEM_SHIELD_ENCHANTED_GOLD_APPLE.setShieldType(new ShieldTypeRepairing(new ItemStack(Items.GOLDEN_APPLE, 1, 1), new ItemStack(Blocks.GOLD_BLOCK), SOUND_APPLE_CRUNCH, SOUND_APPLE_SPLAT, ConfigHandler.SHIELD_DURABILITY_RED_APPLE, ConfigHandler.SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE, 20 * ConfigHandler.SHIELD_HEAL_TIME_ENCHANTED_GOLD_APPLE));
         
-        
         if (IS_RF_PRESENT)
         {
             ITEM_SHIELD_RF_WHITE_APPLE.setShieldType(new ShieldTypeEnergy(new ItemStack(ITEM_FOOD_WHITE_APPLE, 1, 1), new ItemStack(Blocks.REDSTONE_BLOCK), SOUND_APPLE_CRUNCH, SOUND_APPLE_SPLAT, ConfigHandler.SHIELD_DURABILITY_RF_WHITE_APPLE));

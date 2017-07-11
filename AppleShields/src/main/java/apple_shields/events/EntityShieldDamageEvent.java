@@ -25,17 +25,17 @@ public class EntityShieldDamageEvent
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
             ItemStack stack = player.getActiveItemStack();
             
-            if (stack != null && stack.getItem() instanceof ItemAppleShield)
+            if (!stack.isEmpty() && stack.getItem() instanceof ItemAppleShield)
             {
                 ItemAppleShield shield = (ItemAppleShield) stack.getItem();
                 
                 if (canBlockDamageSource(player, event.getSource()) && !player.isEntityInvulnerable(event.getSource()))
                 {
-                    int damageInflicted = 1 + MathHelper.floor_float(event.getAmount());
+                    int damageInflicted = 1 + MathHelper.floor(event.getAmount());
                     
                     shield.damageShield(damageInflicted, stack, player);
                     
-                    if (stack.stackSize <= 0)
+                    if (stack.getCount() <= 0)
                     {
                         EnumHand hand = player.getActiveHand();
 
@@ -45,7 +45,7 @@ public class EntityShieldDamageEvent
                         }
                         
                         ForgeEventFactory.onPlayerDestroyItem(player, stack, hand);
-                        player.setHeldItem(hand, null);
+                        player.setHeldItem(hand, ItemStack.EMPTY);
                     }
                 }
             }

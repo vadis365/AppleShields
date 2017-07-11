@@ -19,14 +19,14 @@ public class ShieldDestroyPacketHandler implements IMessageHandler<ShieldDestroy
     @SideOnly(Side.CLIENT)
     public IMessage onMessage(ShieldDestroyMessage message, MessageContext ctx)
     {
-        EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
+        EntityPlayer player = FMLClientHandler.instance().getClient().player;
         ItemStack stack = message.stack;
         
         SoundEvent sound = AppleShields.SOUND_APPLE_CRUNCH;
         float volume = 1.8F;
-        float pitch = 0.8F + 0.4F * player.worldObj.rand.nextFloat();
+        float pitch = 0.8F + 0.4F * player.getEntityWorld().rand.nextFloat();
         
-        if (stack != null && stack.getItem() instanceof ItemAppleShield)
+        if (!stack.isEmpty() && stack.getItem() instanceof ItemAppleShield)
         {
             ItemAppleShield item = (ItemAppleShield) stack.getItem();
             
@@ -37,7 +37,7 @@ public class ShieldDestroyPacketHandler implements IMessageHandler<ShieldDestroy
         
         Minecraft.getMinecraft().addScheduledTask(() ->
         {
-            Minecraft.getMinecraft().thePlayer.playSound(finalSound, volume, pitch);
+            Minecraft.getMinecraft().player.playSound(finalSound, volume, pitch);
             player.renderBrokenItemStack(stack);
         });
         

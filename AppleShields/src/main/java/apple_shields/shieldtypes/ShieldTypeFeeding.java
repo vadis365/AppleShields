@@ -75,7 +75,7 @@ public class ShieldTypeFeeding extends ShieldTypeBasic
                 {
                     shield.damageShield(foodLevel * durabilityPerHunger, stack, player);
                     
-                    if (stack.stackSize <= 0)
+                    if (stack.getCount() <= 0)
                     {
                         EnumHand hand = null;
                         
@@ -94,7 +94,7 @@ public class ShieldTypeFeeding extends ShieldTypeBasic
                         }
                         
                         ForgeEventFactory.onPlayerDestroyItem(player, stack, hand);
-                        player.inventory.setInventorySlotContents(slot, null);
+                        player.inventory.setInventorySlotContents(slot, ItemStack.EMPTY);
                     }
                 }
             }

@@ -17,7 +17,7 @@ public class AppleShieldSoundEvent
             EntityPlayer player = (EntityPlayer) event.getEntity();
             ItemStack stack = player.getActiveItemStack();
             
-            if (stack != null && stack.getItem() instanceof ItemAppleShield)
+            if (!stack.isEmpty() && stack.getItem() instanceof ItemAppleShield)
             {
                 ItemAppleShield shield = (ItemAppleShield) stack.getItem();
                 

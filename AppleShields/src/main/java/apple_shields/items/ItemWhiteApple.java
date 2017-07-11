@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -66,15 +67,14 @@ public class ItemWhiteApple extends ItemFood
         }
     }
     
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems)
-    {
-        subItems.add(new ItemStack(itemIn));
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+        list.add(new ItemStack(item));
         
         if (AppleShields.IS_RF_PRESENT)
         {
-            subItems.add(new ItemStack(itemIn, 1, 1));
+            list.add(new ItemStack(item, 1, 1));
         }
     }
 }

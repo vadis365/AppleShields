@@ -21,7 +21,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -80,11 +80,12 @@ public class ItemAppleShield extends ItemShield
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand)
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
+    	ItemStack stack = player.getHeldItem(hand);
         if (getItemUseAction(stack) == EnumAction.BLOCK)
         {
-            return super.onItemRightClick(stack, world, player, hand);
+            return super.onItemRightClick(world, player, hand);
         }
         else
         {
@@ -95,7 +96,7 @@ public class ItemAppleShield extends ItemShield
     @Override
     public String getItemStackDisplayName(ItemStack stack)
     {
-        return ("" + I18n.translateToLocal(getUnlocalizedNameInefficiently(stack) + ".name")).trim();
+        return (new TextComponentTranslation(getUnlocalizedNameInefficiently(stack) + ".name")).getFormattedText().trim();
     }
     
     @Override
@@ -114,13 +115,13 @@ public class ItemAppleShield extends ItemShield
     @Override
     public boolean isRepairable()
     {
-        return shieldType.getRepairItem() != null;
+        return !shieldType.getRepairItem().isEmpty();
     }
     
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
-        return repair != null && ItemStack.areItemsEqual(repair, shieldType.getRepairItem());
+        return !repair.isEmpty() && ItemStack.areItemsEqual(repair, shieldType.getRepairItem());
     }
     
     public boolean damageShield(int toDamage, ItemStack stack, EntityLivingBase entity)
@@ -129,15 +130,15 @@ public class ItemAppleShield extends ItemShield
         
         if (damage >= getMaxDamage(stack))
         {
-            --stack.stackSize;
+            stack.shrink(1);
             if (entity instanceof EntityPlayer)
             {
                 EntityPlayer player = (EntityPlayer) entity;
                 player.addStat(StatList.getObjectBreakStats(stack.getItem()));
             }
-            if (stack.stackSize < 0)
+            if (stack.getCount() < 0)
             {
-                stack.stackSize = 0;
+                stack.setCount(0);
             }
         }
         else

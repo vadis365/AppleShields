@@ -57,9 +57,9 @@ public class AppleShields
     public static CreativeTabs creativeTab = new CreativeTabs("AppleShields")
     {
         @Override
-        public Item getTabIconItem()
+        public ItemStack getTabIconItem()
         {
-            return AppleShields.ITEM_SHIELD_RED_APPLE;
+            return new ItemStack (AppleShields.ITEM_SHIELD_RED_APPLE);
         }
     };
     

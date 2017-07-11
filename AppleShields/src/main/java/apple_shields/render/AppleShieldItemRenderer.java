@@ -29,7 +29,7 @@ public class AppleShieldItemRenderer extends TileEntityItemStackRenderer
     @Override
     public void renderByItem(ItemStack stack)
     {
-        if ((stack != null) && (stack.getItem() instanceof ItemAppleShield))
+        if ((!stack.isEmpty()) && (stack.getItem() instanceof ItemAppleShield))
         {
             ItemAppleShield item = (ItemAppleShield) stack.getItem();
             Minecraft.getMinecraft().getTextureManager().bindTexture(modelTexture);

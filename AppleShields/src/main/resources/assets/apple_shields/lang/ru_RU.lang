@@ -1,0 +1,12 @@
+item.apple_shields.white_apple.name=Белое яблоко
+item.apple_shields.apple_pie.name=Яблочный пирог
+
+item.apple_shields.red_apple_shield.name=Щит из красного яблока
+item.apple_shields.white_apple_shield.name=iShield
+item.apple_shields.apple_pie_shield.name=Щит из яблочного пирога
+item.apple_shields.apple_pie_shield.birthday.name=Щит из яблока на день благодарения даркосто
+item.apple_shields.golden_apple_shield.name=Щит из золотого яблока
+item.apple_shields.enchanted_golden_apple_shield.name=Щит из зачарованного золотого яблока
+item.apple_shields.rf_apple_shield.name=iShield RF
+
+itemGroup.AppleShields=Apple Shields
